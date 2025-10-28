@@ -1,0 +1,38 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: news-api-php
+        container_name: news_api_app
+        working_dir: /var/www/html
+        volumes:
+            - ./:/var/www/html
+        depends_on:
+            - db
+        ports:
+            - "5555:5555"
+        networks:
+            - kafka_network
+
+    db:
+        image: postgres:16-alpine
+        container_name: news_api_db
+        environment:
+            POSTGRES_DB: laravel
+            POSTGRES_USER: laravel
+            POSTGRES_PASSWORD: secret
+        ports:
+            - "54321:5432"
+        volumes:
+            - dbdata:/var/lib/postgresql/data
+        networks:
+            - kafka_network
+
+volumes:
+    dbdata:
+        driver: local
+
+networks:
+    kafka_network:
+        external: true
