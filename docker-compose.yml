@@ -12,9 +12,6 @@ services:
             - db
         ports:
             - "5555:5555"
-        networks:
-            - kafka_network
-
     db:
         image: postgres:16-alpine
         container_name: news_api_db
@@ -26,13 +23,7 @@ services:
             - "54321:5432"
         volumes:
             - dbdata:/var/lib/postgresql/data
-        networks:
-            - kafka_network
 
 volumes:
     dbdata:
         driver: local
-
-networks:
-    kafka_network:
-        external: true
