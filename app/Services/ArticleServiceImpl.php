@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\Repositories\ArticleRepository;
 use App\Contracts\Services\ArticleService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 
 class ArticleServiceImpl implements ArticleService
 {
@@ -18,7 +19,7 @@ class ArticleServiceImpl implements ArticleService
         return $this->articleRepository->list($filters, $perPage);
     }
 
-    public function get(string $id): ?array
+    public function get(string $id): Model | null
     {
         return $this->articleRepository->findById($id);
     }
