@@ -15,12 +15,8 @@ class CategoryController extends Controller
     // get all categories
     public function index(): JsonResponse
     {
-        $result = $this->categoryService->getAllCategories();
-
-        return response()->json([
-            'data' => $result['categories'],
-            'meta' => $result['meta'],
-        ]);
+        $categories = $this->categoryService->getAllCategories();
+        return $this->showAll($categories);
     }
 
     // get single category by slug
@@ -29,14 +25,9 @@ class CategoryController extends Controller
         $category = $this->categoryService->getCategoryBySlug($slug);
 
         if (!$category) {
-            return response()->json([
-                'message' => 'Category not found',
-                'error' => "No category found with slug: {$slug}",
-            ], 404);
+            return $this->errorResponse(404, "No category found with slug: {$slug}", "Category not found");
         }
 
-        return response()->json([
-            'data' => $category,
-        ]);
+        return $this->showOne($category);
     }
 }

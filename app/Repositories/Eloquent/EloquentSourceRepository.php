@@ -4,33 +4,25 @@ namespace App\Repositories\Eloquent;
 
 use App\Contracts\Repositories\SourceRepository;
 use App\Models\Source;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 
 class EloquentSourceRepository implements SourceRepository
 {
     /**
      * Get all sources
      */
-    public function list(): array
+    public function list(int $perPage = 20): LengthAwarePaginator
     {
-        return Source::query()
-            ->select(['id', 'key', 'name', 'base_url',])
-            ->orderBy('name')
-            ->get()
-            ->map(function ($source) {
-                return [
-                    'id' => $source->id,
-                    'key' => $source->key,
-                    'name' => $source->name,
-                    'base_url' => $source->base_url,
-                ];
-            })
-            ->toArray();
+        $query =  Source::query()
+            ->select(['id', 'key', 'name', 'base_url']);
+        return $query->paginate($perPage);
     }
 
     /**
      * Find a single source by key
      */
-    public function findByKey(string $key): ?array
+    public function findByKey(string $key): Model| null
     {
         $source = Source::where('key', $key)->first();
 
@@ -38,11 +30,6 @@ class EloquentSourceRepository implements SourceRepository
             return null;
         }
 
-        return [
-            'id' => $source->id,
-            'key' => $source->key,
-            'name' => $source->name,
-            'base_url' => $source->base_url,
-        ];
+        return $source;
     }
 }

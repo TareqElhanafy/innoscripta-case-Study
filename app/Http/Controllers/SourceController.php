@@ -15,12 +15,8 @@ class SourceController extends Controller
     // get all sources
     public function index(): JsonResponse
     {
-        $result = $this->sourceService->getAllSources();
-
-        return response()->json([
-            'data' => $result['sources'],
-            'meta' => $result['meta'],
-        ]);
+        $sources = $this->sourceService->getAllSources();
+        return $this->showAll($sources);
     }
 
     // get single source by key
@@ -29,14 +25,9 @@ class SourceController extends Controller
         $source = $this->sourceService->getSourceByKey($key);
 
         if (!$source) {
-            return response()->json([
-                'message' => 'Source not found',
-                'error' => "No source found with key: {$key}",
-            ], 404);
+            return $this->errorResponse(404, "No source found with key: {$key}", "Source not found");
         }
 
-        return response()->json([
-            'data' => $source,
-        ]);
+        return $this->showOne($source);
     }
 }

@@ -2,8 +2,11 @@
 
 namespace App\Contracts\Services;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
+
 interface SourceService
 {
-    public function getAllSources(): array;
-    public function getSourceByKey(string $key): ?array;
+    public function getAllSources(int $perPage = 20): LengthAwarePaginator;
+    public function getSourceByKey(string $key): Model | null;
 }
