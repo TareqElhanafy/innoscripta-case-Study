@@ -19,7 +19,7 @@ You must have the following software installed on your system:
 Follow these steps to initialize and run the application using Docker Compose:
 
 1. **Clone the Repository:**  
-   git clone \[your-repo-link\]  
+   git clone https://github.com/TareqElhanafy/innoscripta-case-Study.git
    cd laravel-project
 
 2. Environment Setup:  
