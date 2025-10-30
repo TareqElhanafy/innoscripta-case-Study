@@ -2,13 +2,17 @@
 
 namespace App\Providers;
 
+use App\Contracts\Repositories\ArticleRepository;
 use App\Contracts\Repositories\CategoryRepository;
 use Illuminate\Support\ServiceProvider;
 use App\Contracts\Repositories\SourceRepository;
+use App\Contracts\Services\ArticleService;
 use App\Contracts\Services\CategoryService;
 use App\Repositories\Eloquent\EloquentSourceRepository;
 use App\Contracts\Services\SourceService;
+use App\Repositories\Eloquent\EloquentArticleRepository;
 use App\Repositories\Eloquent\EloquentCategoryRepository;
+use App\Services\ArticleServiceImpl;
 use App\Services\CategoryServiceImpl;
 use App\Services\SourceServiceImpl;
 
@@ -26,6 +30,16 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             CategoryService::class,
             CategoryServiceImpl::class
+        );
+
+        $this->app->bind(
+            ArticleRepository::class,
+            EloquentArticleRepository::class
+        );
+
+        $this->app->bind(
+            ArticleService::class,
+            ArticleServiceImpl::class
         );
     }
 }
