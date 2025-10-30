@@ -39,7 +39,9 @@ Follow these steps to initialize and run the application using Docker Compose:
    DB\_PASSWORD=secret
    
    NEWSAPI\_KEY="your_key"
+   
    GUARDIAN\_KEY="test"
+   
    NYT\_KEY="your_key"
 
 
