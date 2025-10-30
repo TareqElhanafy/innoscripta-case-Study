@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SourceController;
 use Illuminate\Support\Facades\Route;
@@ -16,4 +17,11 @@ Route::prefix('/sources')->group(function () {
 Route::prefix('/categories')->group(function () {
     Route::get('/', [CategoryController::class, 'index']);
     Route::get('/{slug}', [CategoryController::class, 'show']);
+});
+
+
+// Articles
+Route::prefix('/articles')->group(function () {
+    Route::get('/', [ArticleController::class, 'index']);
+    Route::get('/{id}', [ArticleController::class, 'show']);
 });
