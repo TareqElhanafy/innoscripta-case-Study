@@ -1,66 +1,314 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Laravel News Aggregation API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This repository hosts a backend API built with Laravel 10/11 and PHP 8.3, designed for a modern news aggregation service. It provides endpoints for retrieving articles, filtering by common criteria (date, category, source), and, crucially, tailoring content delivery based on authenticated user preferences.
 
-## About Laravel
+The project is fully containerized using Docker and utilizes a PostgreSQL database.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+🚀 Getting Started
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+These instructions will get a copy of the project up and running on your local machine.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Prerequisites
 
-## Learning Laravel
+You must have the following software installed on your system:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Docker Desktop (or Docker Engine and Docker Compose)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Setup and Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Follow these steps to initialize and run the application using Docker Compose:
 
-## Laravel Sponsors
+Clone the Repository:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+git clone https://github.com/TareqElhanafy/innoscripta-case-Study.git
+cd laravel-project
 
-### Premium Partners
+Environment Setup:
+Create a .env file in the root directory. You can start by copying the example file:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+cp .env.example .env
 
-## Contributing
+Ensure your .env file contains the following database settings, which match the docker-compose.yml file:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Application URL
 
-## Code of Conduct
+APP_URL=http://localhost:5555
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Database Configuration (PostgreSQL defined in docker-compose.yml)
 
-## Security Vulnerabilities
+DB_CONNECTION=pgsql
+DB_HOST=db
+DB_PORT=5432
+DB_DATABASE=laravel
+DB_USERNAME=laravel
+DB_PASSWORD=secret
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+NEWSAPI_KEY='your_key_here'`
+GUARDIAN_KEY='test'
+NYT_KEY='your_key_here'
 
-## License
+Note: You may need to generate an APP_KEY if it's missing in your .env.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Build and Run Containers:
+Execute the following command to build the PHP application container and start the PostgreSQL database container.
+
+docker-compose up --build -d
+
+The API will be available at http://localhost:5555.
+
+Database Migration and Seeding:
+Once the containers are running, you need to execute the database migrations and seed the initial data (e.g., sources, categories, and dummy articles).
+
+Run the following command to execute operations inside the app container:
+
+docker-compose exec app php artisan migrate --seed
+
+⚙️ Technical Features and Data Aggregation
+
+This section highlights the architecture used for data ingestion and delivery:
+
+Content Providers
+
+The API aggregates articles from three major external providers, demonstrating robustness and integration flexibility:
+
+The Guardian
+
+NewsAPI
+
+The New York Times
+
+Dynamic Data Management
+
+Sources, Categories, and Authors are dynamically managed:
+
+Categories: Due to the wide and potentially endless variation of categories returned by the external providers, category records are dynamically created and stored upon article ingestion, ensuring the API's filtering options stay comprehensive and up-to-date with the ingested data.
+
+Authors: Similar to categories, author data is also dynamically processed upon ingestion due to variations in provider formatting and alias usage, guaranteeing a complete and accurate list of authors for filtering purposes.
+
+Article Duplication Prevention (Checksum)
+
+To maintain data integrity and prevent redundant storage, a checksum mechanism is implemented during the article ingestion process. This ensures that even if the same article is returned by multiple providers or during multiple ingestion runs, it is only stored once in the database.
+
+Standardized API Response (Custom Trait)
+
+To ensure consistency and efficiency, a custom API Response Trait is utilized across all API endpoints. This trait standardizes the JSON response structure for both single resources and collections, and it automatically integrates pagination metadata for endpoints returning lists (such as /articles). This ensures predictable and performant data delivery.
+
+📋 API Endpoints Reference
+
+The API is structured into three main groups: Public Access, Authentication, and Authenticated Access (including User Preferences).
+
+The base URL for all endpoints is http://localhost:5555/api.
+
+1. Public Access (No Authentication Required)
+
+Method
+
+Endpoint
+
+Description
+
+GET
+
+/sources
+
+Retrieve a list of all available news sources.
+
+GET
+
+/sources/{key}
+
+Retrieve a specific source by its unique key.
+
+GET
+
+/categories
+
+Retrieve a list of all article categories.
+
+GET
+
+/categories/{slug}
+
+Retrieve a specific category by its slug.
+
+GET
+
+/articles
+
+Retrieve a paginated list of articles. See the Filtering & Sorting section below for available query parameters.
+
+GET
+
+/articles/{id}
+
+Retrieve a single article by its ID.
+
+Query Parameters for GET /articles (Filtering & Sorting)
+
+The primary article endpoint supports comprehensive filtering and sorting using the following query parameters:
+
+Parameter
+
+Type
+
+Example
+
+Description
+
+q
+
+string
+
+q=tesla
+
+Full-text search term, matching against the article's title or summary (case-insensitive).
+
+source
+
+string
+
+source=cnn,bbc
+
+Filter by one or more news sources. Use comma-separated source keys.
+
+category
+
+string
+
+category=sports,tech
+
+Filter by one or more categories. Use comma-separated category slugs.
+
+author
+
+string
+
+author=john%20smith
+
+Filter by one or more authors. Use comma-separated author names.
+
+from
+
+date
+
+from=2023-01-01
+
+Filter articles published on or after this date. (Field: published_at).
+
+to
+
+date
+
+to=2023-12-31
+
+Filter articles published on or before this date. (Field: published_at).
+
+lang
+
+string
+
+lang=en,es
+
+Filter by one or more article languages. Use comma-separated language codes.
+
+sort_by
+
+string
+
+sort_by=title
+
+Defines the field to sort by. Allowed values: published_at (default), title, created_at.
+
+sort_order
+
+string
+
+sort_order=asc
+
+Defines the sort direction. Allowed values: desc (default), asc.
+
+2. Authentication
+
+Method
+
+Endpoint
+
+Description
+
+POST
+
+/register
+
+Create a new user account. Returns a JWT/Sanctum token upon success.
+
+POST
+
+/login
+
+Authenticate a user. Returns a JWT/Sanctum token upon success.
+
+3. Authenticated Access (auth:sanctum Middleware Required)
+
+These routes require a valid Sanctum token passed in the Authorization: Bearer <token> header.
+
+Method
+
+Endpoint
+
+Description
+
+GET
+
+/user
+
+Retrieve details of the currently authenticated user.
+
+POST
+
+/logout
+
+Invalidate the current user's session token.
+
+User Preferences (Core Feature)
+
+This module allows users to define their specific news preferences, demonstrating a key feature for personalized content delivery.
+
+Method
+
+Endpoint
+
+Description
+
+GET
+
+/user/preferences
+
+Retrieve the authenticated user's saved preferences (e.g., selected sources, categories, authors).
+
+PUT
+
+/user/preferences
+
+Update the authenticated user's preferences.
+
+The Role of User Preferences in Article Retrieval
+
+When a logged-in user hits the public /articles endpoint, the frontend application must first authenticate to retrieve the user's token.
+
+While the /articles route itself is public, in a complete system, the backend would typically check the existence of an Authorization header to determine if it should apply the stored user preferences on top of any provided query parameters. This ensures personalized results for signed-in users.
+
+🌟 Future Enhancements (Roadmap)
+
+To further improve performance, scalability, and usability, the following enhancements are suggested:
+
+Caching Strategy
+
+Implement a robust caching layer (e.g., using Redis) for high-traffic endpoints (like /articles and /sources). Caching would be applied to:
+
+Frequently accessed public article results.
+
+User preferences data for faster lookups.
+
+API Documentation
+
+Integrate an API documentation tool, such as Swagger (OpenAPI), to provide interactive, up-to-date documentation for all endpoints. This would greatly assist frontend developers in consuming the API and serve as comprehensive project documentation.
