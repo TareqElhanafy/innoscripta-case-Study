@@ -17,9 +17,13 @@ class ArticleController extends Controller
 
     public function index(ArticleIndexRequest $request): JsonResponse
     {
+
+        $userId = $request->user()?->id;
+
         $articles = $this->articleService->list(
             $request->filters(),
-            $request->perPage()
+            $request->perPage(),
+            $userId
         );
         return $this->showAll($articles);
     }
