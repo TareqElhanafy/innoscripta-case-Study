@@ -11,6 +11,11 @@ Schedule::job(new IngestSourceJob('guardian'))
     ->onOneServer()
     ->name('ingest-guardian');
 
+Schedule::job(new IngestSourceJob('newsapi'))
+    ->everyThirtySeconds()
+    ->withoutOverlapping()
+    ->onOneServer()
+    ->name('ingest-newsapi');
 
 
 Artisan::command('inspire', function () {

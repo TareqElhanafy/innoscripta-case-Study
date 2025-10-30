@@ -100,8 +100,6 @@ class IngestArticlesService
             }
         });
 
-        // Update source metadata
-        $source->update(['last_fetched_at' => now()]);
 
         $duration = round(microtime(true) - $startTime, 2);
 
