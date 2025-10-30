@@ -37,6 +37,7 @@ Follow these steps to initialize and run the application using Docker Compose:
    DB\_DATABASE=laravel  
    DB\_USERNAME=laravel  
    DB\_PASSWORD=secret
+   
    NEWSAPI\_KEY="your_key"
    GUARDIAN\_KEY="test"
    NYT\_KEY="your_key"
@@ -44,12 +45,12 @@ Follow these steps to initialize and run the application using Docker Compose:
 
 
    *Note: You may need to generate an APP\_KEY if it's missing in your .env.*  
-3. Build and Run Containers:  
+4. Build and Run Containers:  
    Execute the following command to build the PHP application container and start the PostgreSQL database container.  
    docker-compose up \--build \-d
 
    *The API will be available at http://localhost:5555.*  
-4. Database Migration and Seeding:  
+5. Database Migration and Seeding:  
    Once the containers are running, you need to execute the database migrations and seed the initial data (e.g., sources, categories, and dummy articles).  
    Run the following command to execute operations inside the app container:  
    docker-compose exec app php artisan migrate \--seed
