@@ -6,6 +6,7 @@ namespace App\Jobs;
 use App\Services\IngestArticlesService;
 use App\Services\Providers\GuardianProvider;
 use App\Services\Providers\NewsApiProvider;
+use App\Services\Providers\NytProvider;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -36,6 +37,7 @@ class IngestSourceJob implements ShouldQueue
         $provider = match ($this->sourceKey) {
             'guardian' => app(GuardianProvider::class),
             'newsapi' => app(NewsApiProvider::class),
+            'nyt' => app(NytProvider::class),
             default => null
         };
 

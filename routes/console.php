@@ -12,10 +12,17 @@ Schedule::job(new IngestSourceJob('guardian'))
     ->name('ingest-guardian');
 
 Schedule::job(new IngestSourceJob('newsapi'))
-    ->everyThirtySeconds()
+    ->everyMinute()
     ->withoutOverlapping()
     ->onOneServer()
     ->name('ingest-newsapi');
+
+
+Schedule::job(new IngestSourceJob('nyt'))
+    ->everyTwoMinutes()
+    ->withoutOverlapping()
+    ->onOneServer()
+    ->name('ingest-nyt');
 
 
 Artisan::command('inspire', function () {
