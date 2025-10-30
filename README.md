@@ -20,9 +20,10 @@ Follow these steps to initialize and run the application using Docker Compose:
 
 1. **Clone the Repository:**  
    git clone https://github.com/TareqElhanafy/innoscripta-case-Study.git
+   
    cd laravel-project
 
-2. Environment Setup:  
+3. Environment Setup:  
    Create a .env file in the root directory. You can start by copying the example file:  
    cp .env.example .env
 
