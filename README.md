@@ -1,6 +1,6 @@
 # **Laravel News Aggregation API**
 
-This repository hosts a backend API built with Laravel 10/11 and PHP 8.3, designed for a modern news aggregation service. It provides endpoints for retrieving articles, filtering by common criteria (date, category, source), and, crucially, tailoring content delivery based on **authenticated user preferences**.
+This repository hosts a backend API built with Laravel 11 and PHP 8.3, designed for a modern news aggregation service. It provides endpoints for retrieving articles, filtering by common criteria (date, category, source), and, crucially, tailoring content delivery based on **authenticated user preferences**.
 
 The project is fully containerized using Docker and utilizes a PostgreSQL database.
 
