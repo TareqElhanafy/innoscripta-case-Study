@@ -104,7 +104,7 @@ The base URL for all endpoints is http://localhost:5555/api.
 
 #### **Query Parameters for GET /articles (Filtering & Sorting)**
 
-The primary article endpoint supports comprehensive filtering and sorting using the following query parameters:
+The primary article endpoint supports comprehensive filtering and sorting reflecting user preferences internally based on what the user entered in /user/preferences PUT api using the following query parameters:
 
 | Parameter | Type | Example | Description |
 | :---- | :---- | :---- | :---- |
@@ -136,7 +136,7 @@ These routes require a valid Sanctum token passed in the Authorization: Bearer \
 
 #### **User Preferences (Core Feature)**
 
-This module allows users to define their specific news preferences, demonstrating a key feature for personalized content delivery.
+This module allows AUTHENTICATED users to define their specific news preferences, demonstrating a key feature for personalized content delivery.
 
 | Method | Endpoint | Description |
 | :---- | :---- | :---- |
