@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Validator;
 trait ApiResponse
 {
 
-    private function successResponse($data, $code, $message = 'success')
+    protected function successResponse($data, $code, $message = 'success')
     {
         return response()->json(['status_code' => $code, "message" => $message, 'result' => $data]);
     }
 
-    protected function errorResponse($error, $code, $message = 'error')
+    protected function errorResponse($code, $error, $message = 'false')
     {
         return response()->json(['status_code' => $code, 'error' => $error, 'messsage' => $message]);
     }
