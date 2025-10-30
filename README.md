@@ -37,9 +37,9 @@ Follow these steps to initialize and run the application using Docker Compose:
    DB\_DATABASE=laravel  
    DB\_USERNAME=laravel  
    DB\_PASSWORD=secret
-   NEWSAPI\_KEY=secret
-   GUARDIAN\_KEY=secret
-   NYT\_KEY=secret
+   NEWSAPI\_KEY="your_key"
+   GUARDIAN\_KEY="test"
+   NYT\_KEY="your_key"
 
 
 
