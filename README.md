@@ -99,6 +99,9 @@ The base URL for all endpoints is http://localhost:5555/api.
 | GET | /sources/{key} | Retrieve a specific source by its unique key. |
 | GET | /categories | Retrieve a list of all article categories. |
 | GET | /categories/{slug} | Retrieve a specific category by its slug. |
+| GET | /authors | Retrieve a paginated list of all authors. Supports query parameters: `per_page` (max 100), `with_counts` (include article counts). |
+| GET | /authors/{id} | Retrieve a specific author by their ID. |
+| GET | /authors/{id}/articles | Retrieve a paginated list of articles written by the specified author. |
 | GET | /articles | Retrieve a paginated list of articles. See the **Filtering & Sorting** section below for available query parameters. |
 | GET | /articles/{id} | Retrieve a single article by its ID. |
 
