@@ -158,7 +158,7 @@ The primary article endpoint supports comprehensive filtering and sorting reflec
 | Parameter | Type | Example | Description |
 | :---- | :---- | :---- | :---- |
 | **q** | string | q=tesla | Full-text search term, matching against the article's title or summary (case-insensitive). |
-| **source** | string | source=cnn,bbc | Filter by one or more news sources. Use comma-separated source keys. |
+| **source** | string | source=nyt,newsapi | Filter by one or more news sources. Use comma-separated source keys. |
 | **category** | string | category=sports,tech | Filter by one or more categories. Use comma-separated category slugs. |
 | **author** | string | author=john%20smith | Filter by one or more authors. Use comma-separated author names. |
 | **from** | date | from=2023-01-01 | Filter articles published **on or after** this date. (Field: published\_at). |
