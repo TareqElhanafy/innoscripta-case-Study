@@ -5,6 +5,7 @@ use App\Http\Controllers\UserPreferenceController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SourceController;
+use App\Http\Controllers\AuthorController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -24,6 +25,14 @@ Route::prefix('/sources')->group(function () {
 Route::prefix('/categories')->group(function () {
     Route::get('/', [CategoryController::class, 'index']);
     Route::get('/{slug}', [CategoryController::class, 'show']);
+});
+
+
+// Authors
+Route::prefix('/authors')->group(function () {
+    Route::get('/', [AuthorController::class, 'index']);
+    Route::get('/{id}', [AuthorController::class, 'show'])->where('id', '[0-9]+');
+    Route::get('/{id}/articles', [AuthorController::class, 'articles'])->where('id', '[0-9]+');
 });
 
 
