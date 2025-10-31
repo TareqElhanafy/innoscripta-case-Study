@@ -9,6 +9,7 @@ use App\Contracts\Repositories\SourceRepository;
 use App\Contracts\Repositories\UserPreferenceRepository;
 use App\Contracts\Services\ArticleService;
 use App\Contracts\Services\CategoryService;
+use App\Contracts\Services\AuthorService;
 use App\Repositories\Eloquent\EloquentSourceRepository;
 use App\Contracts\Services\SourceService;
 use App\Repositories\Eloquent\EloquentArticleRepository;
@@ -17,6 +18,7 @@ use App\Repositories\Eloquent\EloquentUserPreferenceRepository;
 use App\Services\ArticleServiceImpl;
 use App\Services\CategoryServiceImpl;
 use App\Services\SourceServiceImpl;
+use App\Services\AuthorService as AuthorServiceImpl;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -47,6 +49,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             UserPreferenceRepository::class,
             EloquentUserPreferenceRepository::class
+        );
+
+        $this->app->bind(
+            AuthorService::class,
+            AuthorServiceImpl::class
         );
     }
 }
