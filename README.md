@@ -69,6 +69,52 @@ The API aggregates articles from three major external providers, demonstrating r
 1. **The Guardian**  
 2. **NewsAPI**  
 3. **The New York Times**
+### **Automated Data Ingestion**
+
+The application implements **Laravel Task Scheduling** to ensure that articles are continuously and automatically fetched from external sources, keeping the database fresh and up-to-date without manual intervention.
+
+**Scheduled Jobs:**
+
+```php
+Schedule::job(new IngestSourceJob('guardian'))
+    ->everyThirtySeconds()
+    ->withoutOverlapping()
+    ->onOneServer()
+    ->name('ingest-guardian');
+
+Schedule::job(new IngestSourceJob('newsapi'))
+    ->everyMinute()
+    ->withoutOverlapping()
+    ->onOneServer()
+    ->name('ingest-newsapi');
+
+Schedule::job(new IngestSourceJob('nyt'))
+    ->everyTwoMinutes()
+    ->withoutOverlapping()
+    ->onOneServer()
+    ->name('ingest-nyt');
+```
+
+**Key Features:**
+* **The Guardian:** Updates every 30 seconds for the most frequent content refresh
+* **NewsAPI:** Updates every minute to balance freshness with API rate limits
+* **The New York Times:** Updates every 2 minutes for reliable coverage
+* **withoutOverlapping():** Prevents job overlaps, ensuring only one instance runs at a time
+* **onOneServer():** In multi-server environments, ensures the job runs on only one server to prevent duplicate ingestion
+
+**Running the Scheduler:**
+
+To enable automated ingestion, ensure the Laravel scheduler is running. In your Docker container or server, add the following to your cron:
+
+```bash
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
+
+Or for Docker environments, you can run:
+
+```bash
+docker-compose exec app php artisan schedule:work
+```
 
 ### **Dynamic Data Management**
 
