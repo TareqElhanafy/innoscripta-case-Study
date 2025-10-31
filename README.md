@@ -143,6 +143,21 @@ This module allows AUTHENTICATED users to define their specific news preferences
 | GET | /user/preferences | Retrieve the authenticated user's saved preferences (e.g., selected sources, categories, authors). |
 | **PUT** | /user/preferences | **Update** the authenticated user's preferences. |
 
+**Example Request Body for PUT /user/preferences:**
+
+```json
+{
+    "preferred_sources": ["nyt"],
+    "preferred_categories": ["business"],
+    "preferred_authors": ["william"]
+}
+```
+
+**Request Details:**
+* **preferred_sources:** Array of source keys (e.g., "nyt", "guardian", "newsapi")
+* **preferred_categories:** Array of category slugs (e.g., "business", "sports", "tech")
+* **preferred_authors:** Array of author names (e.g., "william", "john smith")
+
 #### **The Role of User Preferences in Article Retrieval**
 
 When a logged-in user hits the public /articles endpoint, the frontend application **must first authenticate** to retrieve the user's token.
